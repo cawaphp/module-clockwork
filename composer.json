@@ -1,0 +1,22 @@
+{
+    "name": "cawaphp/module-clockwork",
+    "description": "Сáша module-clockwork",
+    "keywords": ["cawa", "clockwork", "debug", "log"],
+    "minimum-stability": "dev",
+    "prefer-stable" : true,
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "tchiotludo"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Cawa\\Clockwork\\": "src"
+        }
+    },
+    "require": {
+        "php": "~7.0",
+        "cawaphp/cawa" : "dev-master"
+    }
+}
