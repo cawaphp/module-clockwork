@@ -21,10 +21,12 @@ use Cawa\Events\TimerEvent;
 use Cawa\Log\Event;
 use Cawa\Orm\SerializableTrait;
 use Cawa\Router\Route;
+use Cawa\Router\RouterFactory;
 use Cawa\Session\SessionFactory;
 
 class Module extends \Cawa\App\Module
 {
+    use RouterFactory;
     use SessionFactory;
     use DispatcherFactory;
     use SerializableTrait;
@@ -35,7 +37,7 @@ class Module extends \Cawa\App\Module
     public function init() : bool
     {
         if (HttpApp::request()->getHeader('X-Clockwork')) {
-            HttpApp::router()->addRoutes([
+            self::router()->addRoutes([
                 Route::create()
                     ->setName('clockwork.request')
                     ->setMatch('/__clockwork/(?<id>.*)')
@@ -148,8 +150,8 @@ class Module extends \Cawa\App\Module
         $this->data['time'] = $start;
         $this->data['method'] = HttpApp::request()->getMethod();
         $this->data['uri'] = (string) HttpApp::request()->getUri()->get(false);
-        $this->data['controller'] = HttpApp::router()->getCurrentController() . '@' .
-            HttpApp::router()->getCurrentMethod();
+        $this->data['controller'] = self::router()->getCurrentController() . '@' .
+            self::router()->getCurrentMethod();
         $this->data['memory'] = memory_get_peak_usage(true);
 
         // request data
