@@ -28,7 +28,6 @@ class Session implements StorageInterface
 
     //endregion
 
-
     /**
      * @param string $id
      *

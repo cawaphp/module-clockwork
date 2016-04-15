@@ -13,8 +13,8 @@ declare (strict_types=1);
 
 namespace Cawa\Clockwork;
 
-use Cawa\Clockwork\Storage\StorageInterface;
 use Cawa\App\App;
+use Cawa\Clockwork\Storage\StorageInterface;
 use Cawa\Core\DI;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
