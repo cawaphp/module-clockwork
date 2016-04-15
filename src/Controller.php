@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Clockwork;
 
-use Cawa\App\Controller\AbstractController;
+use Cawa\Controller\AbstractController;
 
 class Controller extends AbstractController
 {
