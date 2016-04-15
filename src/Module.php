@@ -19,7 +19,7 @@ use Cawa\Core\DI;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
 use Cawa\Log\Event;
-use Cawa\Orm\TraitSerializable;
+use Cawa\Orm\SerializableTrait;
 use Cawa\Router\Route;
 use Cawa\Session\SessionFactory;
 
@@ -27,7 +27,7 @@ class Module extends \Cawa\App\Module
 {
     use SessionFactory;
     use DispatcherFactory;
-    use TraitSerializable;
+    use SerializableTrait;
 
     /**
      * @return bool
