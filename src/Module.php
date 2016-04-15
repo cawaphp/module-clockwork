@@ -13,7 +13,7 @@ declare (strict_types=1);
 
 namespace Cawa\Clockwork;
 
-use Cawa\App\App;
+use Cawa\App\HttpApp;
 use Cawa\Clockwork\Storage\StorageInterface;
 use Cawa\Core\DI;
 use Cawa\Events\DispatcherFactory;
@@ -34,8 +34,8 @@ class Module extends \Cawa\App\Module
      */
     public function init() : bool
     {
-        if (App::request()->getHeader('X-Clockwork')) {
-            App::router()->addRoutes([
+        if (HttpApp::request()->getHeader('X-Clockwork')) {
+            HttpApp::router()->addRoutes([
                 Route::create()
                     ->setName('clockwork.request')
                     ->setMatch('/__clockwork/(?<id>.*)')
@@ -129,8 +129,8 @@ class Module extends \Cawa\App\Module
      */
     public function onEnd()
     {
-        App::response()->addHeader('X-Clockwork-Id', $this->id);
-        App::response()->addHeader('X-Clockwork-Version', '2.0');
+        HttpApp::response()->addHeader('X-Clockwork-Id', $this->id);
+        HttpApp::response()->addHeader('X-Clockwork-Version', '2.0');
 
         $this->generateData();
         $this->storage->set($this->id, $this->data);
@@ -142,26 +142,26 @@ class Module extends \Cawa\App\Module
     protected function generateData()
     {
         $this->data['id'] = $this->id;
-        $start = App::request()->getServer('REQUEST_TIME_FLOAT');
+        $start = HttpApp::request()->getServer('REQUEST_TIME_FLOAT');
         $end = microtime(true);
 
         $this->data['time'] = $start;
-        $this->data['method'] = App::request()->getMethod();
-        $this->data['uri'] = (string) App::request()->getUri()->get(false);
-        $this->data['controller'] = App::router()->getCurrentController() . '@' .
-            App::router()->getCurrentMethod();
+        $this->data['method'] = HttpApp::request()->getMethod();
+        $this->data['uri'] = (string) HttpApp::request()->getUri()->get(false);
+        $this->data['controller'] = HttpApp::router()->getCurrentController() . '@' .
+            HttpApp::router()->getCurrentMethod();
         $this->data['memory'] = memory_get_peak_usage(true);
 
         // request data
-        foreach (App::request()->getCookies() as $cookie) {
+        foreach (HttpApp::request()->getCookies() as $cookie) {
             $this->data['request']['cookies'][$cookie->getName()] = $cookie->getValue();
         }
 
-        $this->data['request']['requestHeaders'] = App::request()->getHeaders();
-        $this->data['request']['responseHeaders'] = App::response()->getHeaders();
-        $this->data['request']['get'] = App::request()->getUri()->getQueries() ?? [];
-        $this->data['request']['post'] = App::request()->getPosts() ?? [];
-        $this->data['request']['files'] = App::request()->getUploadedFiles() ?? [];
+        $this->data['request']['requestHeaders'] = HttpApp::request()->getHeaders();
+        $this->data['request']['responseHeaders'] = HttpApp::response()->getHeaders();
+        $this->data['request']['get'] = HttpApp::request()->getUri()->getQueries() ?? [];
+        $this->data['request']['post'] = HttpApp::request()->getPosts() ?? [];
+        $this->data['request']['files'] = HttpApp::request()->getUploadedFiles() ?? [];
 
         // session data
         $session =  self::session()->getData();
@@ -186,7 +186,7 @@ class Module extends \Cawa\App\Module
 
         // duration
         $this->data['responseTime'] = $end ;
-        $this->data['responseStatus'] = App::response()->getStatus();
+        $this->data['responseStatus'] = HttpApp::response()->getStatus();
         $this->data['responseDuration'] = ($end - $start) * 1000;
 
         $this->data['timelineData'] = $this->data['timelineData'] ?? [];
