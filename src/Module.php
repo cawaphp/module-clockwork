@@ -14,7 +14,6 @@ declare (strict_types=1);
 namespace Cawa\Clockwork;
 
 use Cawa\App\HttpFactory;
-use Cawa\App\HttpApp;
 use Cawa\Clockwork\Storage\StorageInterface;
 use Cawa\Core\DI;
 use Cawa\Events\DispatcherFactory;
