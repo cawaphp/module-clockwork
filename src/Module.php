@@ -151,8 +151,14 @@ class Module extends \Cawa\App\Module
         $this->data['time'] = $start;
         $this->data['method'] = $this->request()->getMethod();
         $this->data['uri'] = (string) $this->request()->getUri()->get(false);
-        $this->data['controller'] = self::router()->getCurrentController() . '@' .
-            self::router()->getCurrentMethod();
+
+        if (is_callable(self::router()->current()->getController())) {
+            $controller = 'Callable';
+        } else {
+            $controller = self::router()->current()->getController();
+        }
+
+        $this->data['controller'] = $controller;
         $this->data['memory'] = memory_get_peak_usage(true);
 
         // request data
