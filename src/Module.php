@@ -128,6 +128,30 @@ class Module extends \Cawa\App\Module
     }
 
     /**
+     * @param callable $listener
+     *
+     * @return string
+     */
+    private function getControllerName($listener) : string
+    {
+        if (is_array($listener)) {
+            if (is_string($listener[0])) {
+                return $listener[0] . '::' . $listener[1];
+            } else {
+                return get_class($listener[0]) . '::' . $listener[1];
+            }
+        } elseif (is_string($listener)) {
+            return $listener;
+        } else {
+            $reflection = new \ReflectionFunction($listener);
+
+            return $reflection->getClosureScopeClass()->getName() . '::' .
+                'closure[' . $reflection->getStartLine() . ':' .
+                $reflection->getEndLine()  . ']';
+        }
+    }
+
+    /**
      *
      */
     public function onEnd()
@@ -152,11 +176,7 @@ class Module extends \Cawa\App\Module
         $this->data['method'] = $this->request()->getMethod();
         $this->data['uri'] = (string) $this->request()->getUri()->get(false);
 
-        if (is_callable(self::router()->current()->getController())) {
-            $controller = 'Callable';
-        } else {
-            $controller = self::router()->current()->getController();
-        }
+        $controller = $this->getControllerName(self::router()->current()->getController());
 
         $this->data['controller'] = $controller;
         $this->data['memory'] = memory_get_peak_usage(true);
