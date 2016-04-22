@@ -176,9 +176,9 @@ class Module extends \Cawa\App\Module
         $this->data['method'] = $this->request()->getMethod();
         $this->data['uri'] = (string) $this->request()->getUri()->get(false);
 
-        $controller = $this->getControllerName(self::router()->current()->getController());
-
-        $this->data['controller'] = $controller;
+        if (self::router()->current()) {
+            $this->data['controller'] = $this->getControllerName(self::router()->current()->getController());
+        }
         $this->data['memory'] = memory_get_peak_usage(true);
 
         // request data
