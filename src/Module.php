@@ -191,6 +191,7 @@ class Module extends \Cawa\App\Module
         $this->data['request']['get'] = $this->request()->getUri()->getQueries() ?? [];
         $this->data['request']['post'] = $this->request()->getPosts() ?? [];
         $this->data['request']['files'] = $this->request()->getUploadedFiles() ?? [];
+        $this->data['request']['server'] = $this->request()->getServers() ?? [];
 
         // session data
         $session =  self::session()->getData();
