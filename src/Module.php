@@ -199,7 +199,7 @@ class Module extends \Cawa\App\Module
         foreach ($session as $key => $value) {
             if (is_object($value)) {
                 $className = get_class($value);
-                $session[$key] = $this->recursiveSerialize($value);
+                $session[$key] = $this->getSerializableData($value);
                 $session[$key] = ['_className' => $className] + $session[$key];
             }
         }
