@@ -39,7 +39,7 @@ class Module extends \Cawa\App\Module
     {
         if ($this->request()->getHeader('X-Clockwork')) {
             self::router()->addRoutes([
-                Route::create()
+                (new Route())
                     ->setName('clockwork.request')
                     ->setMatch('/__clockwork/(?<id>.*)')
                     ->setController('Cawa\\Clockwork\\Controller'),
