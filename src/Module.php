@@ -194,19 +194,21 @@ class Module extends \Cawa\App\Module
         $this->data['request']['server'] = $this->request()->getServers() ?? [];
 
         // session data
-        $session =  self::session()->getData();
+        if (self::session()->isStarted()) {
+            $session = self::session()->getData();
 
-        foreach ($session as $key => $value) {
-            if (is_object($value)) {
-                $className = get_class($value);
-                $session[$key] = $this->getSerializableData($value);
-                $session[$key] = ['_className' => $className] + $session[$key];
+            foreach ($session as $key => $value) {
+                if (is_object($value)) {
+                    $className = get_class($value);
+                    $session[$key] = $this->getSerializableData($value);
+                    $session[$key] = ['_className' => $className] + $session[$key];
+                }
             }
+
+            $this->data['request']['session'] = $session;
+
+            unset($this->data['request']['session']['clockwork']);
         }
-
-        $this->data['request']['session'] = $session;
-
-        unset($this->data['request']['session']['clockwork']);
 
         foreach ($this->data['request'] as $type => $data) {
             if (!$data) {
