@@ -22,6 +22,7 @@ use Cawa\Log\Event;
 use Cawa\Orm\SerializableTrait;
 use Cawa\Router\Route;
 use Cawa\Router\RouterFactory;
+use Cawa\Serializer\Serializer;
 use Cawa\Session\SessionFactory;
 
 class Module extends \Cawa\App\Module
@@ -30,7 +31,6 @@ class Module extends \Cawa\App\Module
     use RouterFactory;
     use SessionFactory;
     use DispatcherFactory;
-    use SerializableTrait;
 
     /**
      * @return bool
@@ -199,9 +199,7 @@ class Module extends \Cawa\App\Module
 
             foreach ($session as $key => $value) {
                 if (is_object($value)) {
-                    $className = get_class($value);
-                    $session[$key] = $this->getSerializableData($value);
-                    $session[$key] = ['_className' => $className] + $session[$key];
+                    $session[$key] = Serializer::serialize($value);
                 }
             }
 
