@@ -19,7 +19,6 @@ use Cawa\Core\DI;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
 use Cawa\Log\Event;
-use Cawa\Orm\SerializableTrait;
 use Cawa\Router\Route;
 use Cawa\Router\RouterFactory;
 use Cawa\Serializer\Serializer;
