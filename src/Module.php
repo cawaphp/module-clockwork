@@ -110,13 +110,23 @@ class Module extends \Cawa\App\Module
     {
         $message = $event->getMessage();
         if ($event->getContext()) {
-            $message .= ' [' . implode('] [', array_map(
-                function ($v, $k) {
-                    return sprintf('%s: %s', ucfirst(strtolower($k)), $v);
-                },
-                $event->getContext(),
-                array_keys($event->getContext())
-            )) . ']';
+            $isAssociative = array_keys($event->getContext()) !== range(0, count($event->getContext()) - 1);
+
+            if ($isAssociative) {
+                $message .= ' [' . implode('] [', array_map(
+                        function ($v, $k) {
+                            return sprintf(
+                                '%s: %s',
+                                ucfirst(strtolower($k)),
+                                is_array($v) ? json_encode($v) : $v
+                            );
+                        },
+                        $event->getContext(),
+                        array_keys($event->getContext())
+                    )) . ']';
+            } else {
+                $message .= ' [Context: ' . json_encode($event->getContext()) . ']';
+            }
         }
 
         $this->data['log'][] = [
