@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types=1);
+declare (strict_types = 1);
 
 namespace Cawa\Clockwork;
 
@@ -114,16 +114,16 @@ class Module extends \Cawa\App\Module
 
             if ($isAssociative) {
                 $message .= ' [' . implode('] [', array_map(
-                        function ($v, $k) {
+                    function ($v, $k) {
                             return sprintf(
                                 '%s: %s',
                                 ucfirst(strtolower($k)),
                                 is_array($v) ? json_encode($v) : $v
                             );
-                        },
-                        $event->getContext(),
-                        array_keys($event->getContext())
-                    )) . ']';
+                    },
+                    $event->getContext(),
+                    array_keys($event->getContext())
+                )) . ']';
             } else {
                 $message .= ' [Context: ' . json_encode($event->getContext()) . ']';
             }
