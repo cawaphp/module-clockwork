@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Clockwork;
 
@@ -68,7 +68,7 @@ class Module extends \Cawa\App\Module
         $class = 'Cawa\\Clockwork\\Storage\\' . ($config ? $config['type'] : 'Session');
 
         if ($config) {
-            return new $class(... $config['config']);
+            return new $class(...$config['config']);
         } else {
             return new $class();
         }
@@ -98,7 +98,7 @@ class Module extends \Cawa\App\Module
         $type = ucfirst($event->getType());
 
         $data = $event->getData();
-        $data['start'] = $event->getStart() ;
+        $data['start'] = $event->getStart();
         $data['duration'] = $event->getDuration() * 1000;
         $this->data['data'][$name][$type][] = $data;
     }
@@ -115,7 +115,7 @@ class Module extends \Cawa\App\Module
             if ($isAssociative) {
                 $message .= ' [' . implode('] [', array_map(
                     function ($v, $k) {
-                            return sprintf(
+                        return sprintf(
                                 '%s: %s',
                                 ucfirst(strtolower($k)),
                                 is_array($v) ? json_encode($v) : $v
@@ -132,7 +132,7 @@ class Module extends \Cawa\App\Module
         $this->data['log'][] = [
             'time' => $event->getDate()->format('U.u'),
             'level' => $event->getLevel(),
-            'message' =>  $message,
+            'message' => $message,
         ];
     }
 
@@ -156,7 +156,7 @@ class Module extends \Cawa\App\Module
 
             return $reflection->getClosureScopeClass()->getName() . '::' .
                 'closure[' . $reflection->getStartLine() . ':' .
-                $reflection->getEndLine()  . ']';
+                $reflection->getEndLine() . ']';
         }
     }
 
@@ -224,7 +224,7 @@ class Module extends \Cawa\App\Module
         }
 
         // duration
-        $this->data['responseTime'] = $end ;
+        $this->data['responseTime'] = $end;
         $this->data['responseStatus'] = self::response()->getStatus();
         $this->data['responseDuration'] = ($end - $start) * 1000;
 
@@ -233,7 +233,7 @@ class Module extends \Cawa\App\Module
         $this->data['timelineData'] = array_merge(['Total execution time' => [[
             'start' => $start,
             'end' => $end,
-            'duration' =>  ($end - $start) * 1000,
+            'duration' => ($end - $start) * 1000,
         ]]], $this->data['timelineData']);
     }
 }

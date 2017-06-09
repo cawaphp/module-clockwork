@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare (strict_types = 1);
+declare(strict_types = 1);
 
 namespace Cawa\Clockwork\Storage;
 
@@ -22,7 +22,7 @@ class Session implements StorageInterface
     //region Constants
 
     /**
-     * Session storage var
+     * Session storage var.
      */
     const SESSION_VAR = 'CLOCKWORK';
 
