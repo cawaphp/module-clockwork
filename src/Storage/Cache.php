@@ -39,6 +39,10 @@ class Cache implements StorageInterface
     {
         $data = self::cache($this->name)->get($id);
 
+        if ($data) {
+            self::cache($this->name)->delete($id);
+        }
+
         return $data ? $data : [];
     }
 
@@ -48,5 +52,13 @@ class Cache implements StorageInterface
     public function set(string $id, array $data)
     {
         self::cache($this->name)->set($id, $data);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(string $id) : bool
+    {
+        return self::cache($this->name)->delete($id);
     }
 }

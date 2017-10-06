@@ -29,9 +29,7 @@ class Session implements StorageInterface
     //endregion
 
     /**
-     * @param string $id
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function get(string $id) : array
     {
@@ -54,10 +52,7 @@ class Session implements StorageInterface
     }
 
     /**
-     * @param string $id
-     * @param array $data
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function set(string $id, array $data)
     {
