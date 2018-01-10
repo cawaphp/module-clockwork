@@ -13,12 +13,15 @@ declare(strict_types = 1);
 
 namespace Cawa\Clockwork;
 
+use Cawa\App\AbstractApp;
+use Cawa\App\HttpApp;
 use Cawa\App\HttpFactory;
 use Cawa\Clockwork\Storage\StorageInterface;
 use Cawa\Core\DI;
 use Cawa\Events\DispatcherFactory;
 use Cawa\Events\TimerEvent;
 use Cawa\Log\Event;
+use Cawa\Net\Ip;
 use Cawa\Router\Route;
 use Cawa\Router\RouterFactory;
 use Cawa\Serializer\Serializer;
@@ -36,7 +39,10 @@ class Module extends \Cawa\App\Module
      */
     public function init() : bool
     {
-        if (self::request()->getHeader('X-Clockwork')) {
+        if (
+            self::request()->getHeader('X-Clockwork') &&
+            (HttpApp::env() !== HttpApp::PRODUCTION || AbstractApp::instance()->isAdmin())
+        ) {
             self::router()->addRoutes([
                 (new Route())
                     ->setName('clockwork.request')
